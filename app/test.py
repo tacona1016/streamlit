@@ -43,6 +43,8 @@ col1, col2, col3 = st.columns([2,1,1])
 ticker = col1.selectbox('Name', options=tickers or ['금/은'])
 start = col2.date_input('Start', value=pd.to_datetime('2022-01-01'))
 end = col3.date_input('End', value=pd.to_datetime('today'))
+start = pd.to_datetime(start)  # st_date: date | datetime
+end   = pd.to_datetime(end)
 
 df = df_test[(df_test.alias==ticker)&(df_test.date>=start)&(df_test.date<=end)]
 st.line_chart(df.set_index('date')['value'])
