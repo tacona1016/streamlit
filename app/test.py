@@ -48,3 +48,21 @@ end   = pd.to_datetime(end)
 
 df = df_test[(df_test.alias==ticker)&(df_test.date>=start)&(df_test.date<=end)]
 st.line_chart(df.set_index('date')['value'])
+
+
+# 슬라이더로 y축 범위 지정
+ymin, ymax = st.slider(
+    "Y축 범위 선택",
+    float(df["value"].min()),  # 최소값
+    float(df["value"].max()),  # 최대값
+    (float(df["value"].min()), float(df["value"].max())) # 초기범위
+)
+
+# Altair 차트 (y축 scale 고정)
+chart = (
+    alt.Chart(df)
+    .mark_line()
+    .encode(x="date", y=alt.Y("value", scale=alt.Scale(domain=[ymin, ymax])))
+)
+
+st.altair_chart(chart, use_container_width=True)
