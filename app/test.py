@@ -22,8 +22,8 @@ engine = create_engine(url, connect_args={"sslmode":"require"}, pool_pre_ping=Tr
 
 # 연결 테스트
 with engine.begin() as conn:
-    df_test = pd.read_sql("SELECT * FROM stock_data", engine)
-tickers = list(df_test.ticker.unique())
+    df_test = pd.read_sql("SELECT * FROM stock_addp", engine)
+tickers = list(df_test.alias.unique())
 
 st.set_page_config(
     initial_sidebar_state="collapsed",
@@ -40,9 +40,9 @@ with st.sidebar:
 st.write("test삼아 만든 차트입니다")
 
 col1, col2, col3 = st.columns([2,1,1])
-ticker = col1.selectbox('Ticker', options=tickers or ['AAPL'])
+ticker = col1.selectbox('Name', options=tickers or ['금/은'])
 start = col2.date_input('Start', value=pd.to_datetime('2022-01-01'))
 end = col3.date_input('End', value=pd.to_datetime('today'))
 
 df = df_test[df_test.ticker==ticker]
-st.line_chart(df.set_index('date')['close'])
+st.line_chart(df.set_index('date')['value'])
