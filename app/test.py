@@ -44,5 +44,5 @@ ticker = col1.selectbox('Name', options=tickers or ['금/은'])
 start = col2.date_input('Start', value=pd.to_datetime('2022-01-01'))
 end = col3.date_input('End', value=pd.to_datetime('today'))
 
-df = df_test[df_test.ticker==ticker]
+df = df_test[df_test.alias==ticker]
 st.line_chart(df.set_index('date')['value'])
