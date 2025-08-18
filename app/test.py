@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 import warnings
+import altair as alt
 
 # 모든 경고 무시
 warnings.filterwarnings("ignore")
