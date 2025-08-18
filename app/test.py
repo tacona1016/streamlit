@@ -37,7 +37,7 @@ with st.sidebar:
     st.write("tacona1016의 개인 차트")
 
 
-st.write("test삼아 만든 차트입니다")
+st.write("몇가지 simple한 파생 parameter")
 
 col1, col2, col3 = st.columns([2,1,1])
 ticker = col1.selectbox('Name', options=tickers or ['금/은'])
