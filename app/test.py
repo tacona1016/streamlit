@@ -50,6 +50,21 @@ end   = pd.to_datetime(end)
 df = df_test[(df_test.alias==ticker)&(df_test.date>=start)&(df_test.date<=end)]
 st.line_chart(df.set_index('date')['value'])
 
+import streamlit as st
+import pandas as pd
+import numpy as np
+import altair as alt
+
+x = pd.date_range("2024-01-01", periods=50)
+y = np.random.randn(50).cumsum()
+df = pd.DataFrame({"date": x, "value": y})
+
+chart = alt.Chart(df).mark_line().encode(
+    x="date:T",
+    y="value:Q"
+)
+st.altair_chart(chart, use_container_width=True)
+
 
 # 슬라이더로 y축 범위 지정
 ymin, ymax = st.slider(
