@@ -6,7 +6,6 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 import warnings
-import altair as alt
 
 # 모든 경고 무시
 warnings.filterwarnings("ignore")
@@ -49,36 +48,3 @@ end   = pd.to_datetime(end)
 
 df = df_test[(df_test.alias==ticker)&(df_test.date>=start)&(df_test.date<=end)]
 st.line_chart(df.set_index('date')['value'])
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import altair as alt
-
-x = pd.date_range("2024-01-01", periods=50)
-y = np.random.randn(50).cumsum()
-df = pd.DataFrame({"date": x, "value": y})
-
-chart = alt.Chart(df).mark_line().encode(
-    x="date:T",
-    y="value:Q"
-)
-st.altair_chart(chart, use_container_width=True)
-
-
-# 슬라이더로 y축 범위 지정
-ymin, ymax = st.slider(
-    "Y축 범위 선택",
-    float(df["value"].min()),  # 최소값
-    float(df["value"].max()),  # 최대값
-    (float(df["value"].min()), float(df["value"].max())) # 초기범위
-)
-
-# Altair 차트 (y축 scale 고정)
-chart = (
-    alt.Chart(df)
-    .mark_line()
-    .encode(x="date", y=alt.Y("value", scale=alt.Scale(domain=[ymin, ymax])))
-)
-
-st.altair_chart(chart, use_container_width=True)
