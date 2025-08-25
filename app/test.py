@@ -62,7 +62,13 @@ df["lower"] = df["ma120"] - 2 * df["std120"]
 y_min = df.value.min()
 y_max = df.value.max()
 
-if 'monthly' in ticker:
+if 'mom' in ticker:
+    dates = pd.date_range(start=start, end=end)
+    hline = pd.DataFrame({"date": dates, "line": [0.0] * len(dates)})
+    trend_chart = alt.Chart(df).mark_line(color="white").encode(x="date:T", y=alt.Y("value:Q", scale=alt.Scale(domain=[y_min, y_max])))
+    hline_chart = alt.Chart(hline).mark_line(color="red").encode(x="date:T", y=alt.Y("line:Q", scale=alt.Scale(domain=[y_min, y_max])))
+    st.altair_chart(trend_chart + hline_chart, use_container_width=True)
+elif 'mdd' in ticker:
     dates = pd.date_range(start=start, end=end)
     hline = pd.DataFrame({"date": dates, "line": [0.0] * len(dates)})
     trend_chart = alt.Chart(df).mark_line(color="white").encode(x="date:T", y=alt.Y("value:Q", scale=alt.Scale(domain=[y_min, y_max])))
